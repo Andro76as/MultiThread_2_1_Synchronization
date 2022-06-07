@@ -12,7 +12,7 @@ public class Dealer {
         for (int i = 0; i < carCount; i++) {
             try {
                 Thread.sleep(1500);
-                cars.add(new Car());
+                cars.add(new Car(this));
                 System.out.println(Thread.currentThread().getName() + " Toyota выпустил 1 авто.");
                 synchronized (this) {
                     notify();
