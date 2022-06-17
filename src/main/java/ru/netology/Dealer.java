@@ -8,27 +8,31 @@ public class Dealer {
     private final List<Car> cars = new ArrayList<>();
 
     // synchronized void receiveCar
-    public void receiveCar() {
+    public synchronized void receiveCar() {
         for (int i = 0; i < carCount; i++) {
             try {
-                Thread.sleep(1500);
-                cars.add(new Car(this));
+                Thread.sleep(1000);
+                cars.add(new Car());
                 System.out.println(Thread.currentThread().getName() + " Toyota выпустил 1 авто.");
-                synchronized (this) {
-                    notify();
-                }
+//                synchronized (this) {
+//                    notify();
+//                }
+                notify();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public synchronized void sellCar() {
+    public  void sellCar() {
         try {
             System.out.println(Thread.currentThread().getName() + " зашел в автосалон.");
             while (cars.size() == 0) {
                 System.out.println("Машин нет!");
-                wait();
+//                wait();
+                synchronized (this) {
+                    wait();
+                }
             }
             Thread.sleep(1000);
             System.out.println(Thread.currentThread().getName() + " уехал на новеньком авто.");
